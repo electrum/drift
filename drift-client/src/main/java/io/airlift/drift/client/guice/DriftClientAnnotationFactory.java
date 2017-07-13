@@ -15,18 +15,10 @@
  */
 package io.airlift.drift.client.guice;
 
-import javax.inject.Qualifier;
-
 import java.lang.annotation.Annotation;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 import java.util.Objects;
 
 import static java.lang.String.format;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.Objects.requireNonNull;
 
 public final class DriftClientAnnotationFactory
@@ -35,27 +27,17 @@ public final class DriftClientAnnotationFactory
 
     public static Annotation getDriftClientAnnotation(Class<?> value, Class<? extends Annotation> qualifier)
     {
-        return new DriftClientAnnotationImpl(value, qualifier);
-    }
-
-    @Target({FIELD, PARAMETER, METHOD})
-    @Retention(RUNTIME)
-    @Qualifier
-    @interface DriftClientAnnotation
-    {
-        Class<?> value();
-
-        Class<? extends Annotation> qualifier();
+        return new DriftClientAnnotation(value, qualifier);
     }
 
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    private static final class DriftClientAnnotationImpl
-            implements DriftClientAnnotation
+    private static final class DriftClientAnnotation
+            implements ForDriftClient
     {
         private final Class<?> value;
         private final Class<? extends Annotation> qualifier;
 
-        private DriftClientAnnotationImpl(Class<?> value, Class<? extends Annotation> qualifier)
+        private DriftClientAnnotation(Class<?> value, Class<? extends Annotation> qualifier)
         {
             this.value = requireNonNull(value, "value is null");
             this.qualifier = requireNonNull(qualifier, "qualifier is null");
@@ -76,29 +58,33 @@ public final class DriftClientAnnotationFactory
         @Override
         public Class<? extends Annotation> annotationType()
         {
-            return DriftClientAnnotation.class;
+            return ForDriftClient.class;
         }
 
-        public int hashCode()
-        {
-            // This is specified in java.lang.Annotation.
-            return (127 * "value".hashCode()) ^ value.hashCode() +
-                    (127 * "qualifier".hashCode()) ^ qualifier.hashCode();
-        }
-
+        @Override
         public boolean equals(Object o)
         {
-            if (!(o instanceof DriftClientAnnotation)) {
+            // allow equality with any instance of the annotation
+            if (!(o instanceof ForDriftClient)) {
                 return false;
             }
-            DriftClientAnnotation other = (DriftClientAnnotation) o;
-            return Objects.equals(value, other.value()) && Objects.equals(qualifier, other.qualifier());
+            ForDriftClient other = (ForDriftClient) o;
+            return Objects.equals(value, other.value()) &&
+                    Objects.equals(qualifier, other.qualifier());
+        }
+
+        @Override
+        public int hashCode()
+        {
+            // this is specified in java.lang.Annotation
+            return ((127 * "value".hashCode()) ^ value.hashCode()) +
+                    ((127 * "qualifier".hashCode()) ^ qualifier.hashCode());
         }
 
         @Override
         public String toString()
         {
-            return format("@%s(value=%s, qualifier=%s)", DriftClientAnnotation.class.getName(), value, qualifier);
+            return format("@%s(value=%s, qualifier=%s)", ForDriftClient.class.getName(), value, qualifier);
         }
     }
 }
