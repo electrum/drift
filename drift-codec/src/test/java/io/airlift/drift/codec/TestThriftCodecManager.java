@@ -194,6 +194,15 @@ public class TestThriftCodecManager
         testRoundTripSerialize(union);
     }
 
+    @Test
+    public void testGenericReturnValueEnum()
+            throws Exception
+    {
+        ThriftEnumMetadata<GenericReturnValueEnum> enumMetadata = thriftEnumMetadata(GenericReturnValueEnum.class);
+        testRoundTripSerialize(enumType(enumMetadata), GenericReturnValueEnum.GENERIC_RETURN_VALUE_ENUM);
+        testRoundTripSerialize(list(enumType(enumMetadata)), ImmutableList.copyOf(GenericReturnValueEnum.values()));
+    }
+
     private <T> void testRoundTripSerialize(T value)
             throws Exception
     {
