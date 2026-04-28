@@ -725,7 +725,7 @@ public abstract class AbstractThriftCodecManagerTest
     private <T> void testRoundTripSerialize(T value)
             throws Exception
     {
-        testRoundTripSerialize(value, x -> {});
+        testRoundTripSerialize(value, _ -> {});
     }
 
     private <T> void testRoundTripSerialize(T value, Consumer<T> consumer)
