@@ -19,7 +19,6 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
 import io.airlift.drift.codec.generics.ConcreteDerivedFromGeneric;
 import io.airlift.drift.codec.generics.ConcreteDerivedFromGenericBean;
@@ -594,9 +593,9 @@ public abstract class AbstractThriftCodecManagerTest
     {
         ViaListElementType recursiveObject = new ViaListElementType();
         recursiveObject.data = "parent";
-        recursiveObject.children = Lists.newArrayList(new ViaListElementType());
+        recursiveObject.children = List.of(new ViaListElementType());
         recursiveObject.children.get(0).data = "child";
-        recursiveObject.children.get(0).children = Lists.newArrayList(new ViaListElementType());
+        recursiveObject.children.get(0).children = List.of(new ViaListElementType());
         recursiveObject.children.get(0).children.get(0).data = "grandchild";
         testRoundTripSerialize(recursiveObject);
     }
@@ -673,7 +672,7 @@ public abstract class AbstractThriftCodecManagerTest
             recursiveNode.child = recursiveLeaf;
             CoRecursiveTree recursiveRoot = new CoRecursiveTree();
             recursiveRoot.data = "root";
-            recursiveRoot.children = Lists.newArrayList(recursiveNode);
+            recursiveRoot.children = List.of(recursiveNode);
             testRoundTripSerialize(recursiveRoot);
         }
 
@@ -682,7 +681,7 @@ public abstract class AbstractThriftCodecManagerTest
             recursiveLeaf.data = "grandchild";
             CoRecursiveTree recursiveNode = new CoRecursiveTree();
             recursiveNode.data = "child";
-            recursiveNode.children = Lists.newArrayList(recursiveLeaf);
+            recursiveNode.children = List.of(recursiveLeaf);
             CoRecursiveTreeHelper recursiveRoot = new CoRecursiveTreeHelper();
             recursiveRoot.data = "root";
             recursiveRoot.child = recursiveNode;

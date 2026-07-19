@@ -35,6 +35,7 @@ import java.util.Set;
 
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.collect.Streams.mapWithIndex;
+import static java.lang.String.join;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -247,11 +248,11 @@ public final class ThriftIdlRenderer
 
     private static String renderParameters(String start, List<String> parameters)
     {
-        String joined = Joiner.on(", ").join(parameters) + ")";
+        String joined = join(", ", parameters) + ")";
         if ((start.length() + joined.length()) <= 80) {
             return start + joined;
         }
-        return start + "\n      " + Joiner.on(",\n      ").join(parameters) + ")";
+        return start + "\n      " + join(",\n      ", parameters) + ")";
     }
 
     private String typeName(ThriftType type)
