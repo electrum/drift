@@ -251,6 +251,43 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <configuration>
+                        <licenseSets>
+                            <licenseSet>
+                                <excludes combine.children="append">
+                                    <exclude>src/test/resources/scribe.thrift</exclude>
+                                    <exclude>src/test/java/**/scribe/apache/LogEntry.java</exclude>
+                                    <exclude>src/test/java/**/scribe/apache/ResultCode.java</exclude>
+                                    <exclude>src/test/java/**/scribe/apache/scribe.java</exclude>
+                                </excludes>
+                            </licenseSet>
+                        </licenseSets>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>io.airlift</groupId>
+                    <artifactId>airstyle-maven-plugin</artifactId>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/scribe/apache/LogEntry.java</exclude>
+                            <exclude>**/scribe/apache/ResultCode.java</exclude>
+                            <exclude>**/scribe/apache/scribe.java</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <configuration>
+                        <excludes>**/scribe/apache/LogEntry.java,**/scribe/apache/ResultCode.java,**/scribe/apache/scribe.java</excludes>
+                    </configuration>
+                </plugin>
+
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-plugin-plugin</artifactId>
                     <version>3.15.1</version>
