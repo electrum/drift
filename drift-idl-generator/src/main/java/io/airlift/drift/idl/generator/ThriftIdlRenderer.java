@@ -187,13 +187,11 @@ public final class ThriftIdlRenderer
 
     private static String requiredness(Requiredness requiredness)
     {
-        switch (requiredness) {
-            case REQUIRED:
-                return "required ";
-            case OPTIONAL:
-                return "optional ";
-        }
-        return "";
+        return switch (requiredness) {
+            case REQUIRED -> "required ";
+            case OPTIONAL -> "optional ";
+            case UNSPECIFIED, NONE -> "";
+        };
     }
 
     private String renderServices(List<ThriftServiceMetadata> services)

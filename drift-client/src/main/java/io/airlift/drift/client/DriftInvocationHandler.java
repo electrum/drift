@@ -65,15 +65,12 @@ class DriftInvocationHandler
             throws Throwable
     {
         if (method.getDeclaringClass() == Object.class) {
-            switch (method.getName()) {
-                case "toString":
-                    return serviceName;
-                case "equals":
-                    return Proxy.isProxyClass(args[0].getClass()) && (Proxy.getInvocationHandler(args[0]) == this);
-                case "hashCode":
-                    return System.identityHashCode(this);
-            }
-            throw new UnsupportedOperationException(method.getName());
+            return switch (method.getName()) {
+                case "toString" -> serviceName;
+                case "equals" -> Proxy.isProxyClass(args[0].getClass()) && (Proxy.getInvocationHandler(args[0]) == this);
+                case "hashCode" -> System.identityHashCode(this);
+                default -> throw new UnsupportedOperationException(method.getName());
+            };
         }
 
         if (args == null) {

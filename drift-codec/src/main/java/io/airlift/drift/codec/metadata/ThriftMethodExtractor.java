@@ -48,12 +48,10 @@ public class ThriftMethodExtractor
         this.type = TypeToken.of(requireNonNull(fieldType, "structType is null")).getRawType();
 
         switch (fieldKind) {
-            case THRIFT_FIELD:
+            case THRIFT_FIELD -> {
                 // Nothing to check
-                break;
-            case THRIFT_UNION_ID:
-                checkArgument(fieldId == Short.MIN_VALUE, "fieldId must be Short.MIN_VALUE for thrift_union_id");
-                break;
+            }
+            case THRIFT_UNION_ID -> checkArgument(fieldId == Short.MIN_VALUE, "fieldId must be Short.MIN_VALUE for thrift_union_id");
         }
 
         this.id = fieldId;

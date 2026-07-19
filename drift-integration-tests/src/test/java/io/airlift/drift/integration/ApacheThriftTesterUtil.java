@@ -185,25 +185,19 @@ final class ApacheThriftTesterUtil
 
     private static ApacheThriftClientConfig.Transport toApacheThriftTransport(Transport transport)
     {
-        switch (transport) {
-            case UNFRAMED:
-                return ApacheThriftClientConfig.Transport.UNFRAMED;
-            case FRAMED:
-                return ApacheThriftClientConfig.Transport.FRAMED;
-            default:
-                throw new IllegalArgumentException("Unsupported transport " + transport);
-        }
+        return switch (transport) {
+            case UNFRAMED -> ApacheThriftClientConfig.Transport.UNFRAMED;
+            case FRAMED -> ApacheThriftClientConfig.Transport.FRAMED;
+            case HEADER -> throw new IllegalArgumentException("Unsupported transport: HEADER");
+        };
     }
 
     private static ApacheThriftClientConfig.Protocol toApacheThriftProtocol(Protocol protocol)
     {
-        switch (protocol) {
-            case BINARY:
-                return ApacheThriftClientConfig.Protocol.BINARY;
-            case COMPACT:
-                return ApacheThriftClientConfig.Protocol.COMPACT;
-            default:
-                throw new IllegalArgumentException("Unsupported protocol " + protocol);
-        }
+        return switch (protocol) {
+            case BINARY -> ApacheThriftClientConfig.Protocol.BINARY;
+            case COMPACT -> ApacheThriftClientConfig.Protocol.COMPACT;
+            case FB_COMPACT -> throw new IllegalArgumentException("Unsupported protocol: FB_COMPACT");
+        };
     }
 }

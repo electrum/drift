@@ -926,37 +926,22 @@ public class TFacebookCompactProtocol
     private static byte getTType(byte type)
             throws TProtocolException
     {
-        switch ((byte) (type & 0x0F)) {
-            case TType.STOP:
-                return TType.STOP;
-            case Types.BOOLEAN_FALSE:
-            case Types.BOOLEAN_TRUE:
-                return TType.BOOL;
-            case Types.BYTE:
-                return TType.BYTE;
-            case Types.I16:
-                return TType.I16;
-            case Types.I32:
-                return TType.I32;
-            case Types.I64:
-                return TType.I64;
-            case Types.FLOAT:
-                return TType.FLOAT;
-            case Types.DOUBLE:
-                return TType.DOUBLE;
-            case Types.BINARY:
-                return TType.STRING;
-            case Types.LIST:
-                return TType.LIST;
-            case Types.SET:
-                return TType.SET;
-            case Types.MAP:
-                return TType.MAP;
-            case Types.STRUCT:
-                return TType.STRUCT;
-            default:
-                throw new TProtocolException("don't know what type: " + (byte) (type & 0x0F));
-        }
+        return switch ((byte) (type & 0x0F)) {
+            case TType.STOP -> TType.STOP;
+            case Types.BOOLEAN_FALSE, Types.BOOLEAN_TRUE -> TType.BOOL;
+            case Types.BYTE -> TType.BYTE;
+            case Types.I16 -> TType.I16;
+            case Types.I32 -> TType.I32;
+            case Types.I64 -> TType.I64;
+            case Types.FLOAT -> TType.FLOAT;
+            case Types.DOUBLE -> TType.DOUBLE;
+            case Types.BINARY -> TType.STRING;
+            case Types.LIST -> TType.LIST;
+            case Types.SET -> TType.SET;
+            case Types.MAP -> TType.MAP;
+            case Types.STRUCT -> TType.STRUCT;
+            default -> throw new TProtocolException("don't know what type: " + (byte) (type & 0x0F));
+        };
     }
 
     /**
